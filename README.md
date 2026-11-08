@@ -309,16 +309,16 @@
       ).join("\n");
 
       const message = [
-        "*PESANAN BARU - PINOZ STORE*",
+        "*PESANAN BARU 🌾 - Fertijava Store*",
         "",
         "*DATA CUSTOMER*",
-        `Nama: ${value("customer-name")}`,
-        `Alamat: ${value("street")}`,
-        `RT/RW: ${value("rt")}/${value("rw")}`,
+        `Nama          : ${value("customer-name")}`,
+        `Alamat        : ${value("street")}`,
+        `RT/RW         : ${value("rt")}/${value("rw")}`,
         `Kelurahan/Desa: ${value("kelurahan")}`,
-        `Kecamatan: ${value("kecamatan")}`,
+        `Kecamatan     : ${value("kecamatan")}`,
         `Kabupaten/Kota: ${value("kota")}`,
-        `Kode Pos: ${value("kodepos")}`,
+        `Kode Pos      : ${value("kodepos")}`,
         "",
         "*DETAIL PEMESANAN*",
         orderLines,
