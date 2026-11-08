@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -134,6 +135,7 @@
         </div>
       </div>
     </section>
+
     <section class="section" id="produk">
       <div class="section-head">
         <div><div class="section-kicker">Katalog pilihan</div><h2>Produk Pinoz</h2></div>
@@ -141,6 +143,7 @@
       </div>
       <div class="products" id="product-list"></div>
     </section>
+
     <section class="how" id="cara-pesan">
       <div class="how-inner">
         <div class="step"><b>01</b><h3>Pilih Produk</h3><p>Jelajahi katalog dan tambahkan produk yang dibutuhkan ke keranjang.</p></div>
@@ -148,6 +151,7 @@
         <div class="step"><b>03</b><h3>Kirim via WhatsApp</h3><p>Tekan tombol pesan. Rincian pesanan akan disiapkan otomatis di WhatsApp.</p></div>
       </div>
     </section>
+
     <section class="section" id="checkout">
       <div class="section-head">
         <div><div class="section-kicker">Selesaikan pesanan</div><h2>Keranjang & Data Customer</h2></div>
@@ -183,7 +187,7 @@
 
   <footer><strong>PINOZ STORE</strong><p>Solusi kebutuhan pertanian Anda.</p><span>© <span id="year"></span> PINOZ Store. All rights reserved.</span></footer>
   <div class="toast" id="toast">Produk ditambahkan ke keranjang</div>
-  
+
   <script>
     /*
       PENGATURAN TOKO:
@@ -193,7 +197,7 @@
       2. Edit daftar produk di PRODUCTS: nama, harga, deskripsi, kategori, dan gambar.
       3. Harga harus berupa angka tanpa titik/koma. Contoh Rp25.000 ditulis 25000.
     */
-    const ADMIN_WA = "6281234567890"; // WAJIB GANTI DENGAN NOMOR WHATSAPP ADMIN
+    const ADMIN_WA = "62881025173774"; // WAJIB GANTI DENGAN NOMOR WHATSAPP ADMIN
 
     const PRODUCTS = [
       { id: 1, name: "PINOZ Nutrisi Daun", category: "Contoh katalog", price: 25000,
@@ -293,7 +297,7 @@
         document.getElementById("produk").scrollIntoView({ behavior: "smooth" });
         return;
       }
-      if (ADMIN_WA === "62881025173774" || !/^[0-9]{9,15}$/.test(ADMIN_WA)) {
+      if (ADMIN_WA === "6281234567890" || !/^[0-9]{9,15}$/.test(ADMIN_WA)) {
         alert("Admin perlu mengatur nomor WhatsApp toko terlebih dahulu pada variabel ADMIN_WA di dalam file index.html.");
         return;
       }
