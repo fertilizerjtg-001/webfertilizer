@@ -293,7 +293,7 @@
         document.getElementById("produk").scrollIntoView({ behavior: "smooth" });
         return;
       }
-      if (ADMIN_WA === "0881025173774" || !/^[0-9]{9,15}$/.test(ADMIN_WA)) {
+      if (ADMIN_WA === "62881025173774" || !/^[0-9]{9,15}$/.test(ADMIN_WA)) {
         alert("Admin perlu mengatur nomor WhatsApp toko terlebih dahulu pada variabel ADMIN_WA di dalam file index.html.");
         return;
       }
