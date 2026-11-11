@@ -325,12 +325,13 @@
         "*DETAIL PEMESANAN*",
         orderLines,
         "",
-        `*TOTAL: ${total > 0 ? rupiah(total) : "Menunggu konfirmasi harga admin"}*`,
+        `*TOTAL            : ${total > 0 ? rupiah(total) : "Menunggu konfirmasi harga admin"}*`,
+        "*Discunt          :",
+        "*Total Bayar     :",
         `Catatan: ${value("notes") || "-"}`,
         "",
 
-        "*Discunt         :",
-        "*Total Bayar     :",
+        
         
         "Mohon konfirmasi ketersediaan produk dan ongkos kirim. Terima kasih."
       ].join("\n");
