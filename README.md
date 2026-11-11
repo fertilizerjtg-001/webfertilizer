@@ -200,17 +200,19 @@
     const ADMIN_WA = "62881025173774"; // WAJIB GANTI DENGAN NOMOR WHATSAPP ADMIN
 
     const PRODUCTS = [
-      { id: 1, name: "PINOZ Nutrisi Daun", category: "Contoh katalog", price: 25000,
+      { id: 1, name: "PINOZ Nutrisi Kompleks", category: "Contoh katalog", price: 120000,
         description: "Contoh tampilan produk. Ganti deskripsi sesuai informasi pada label resmi.", image: "", icon: "🌿" },
-      { id: 2, name: "PINOZ Perangsang Akar", category: "Contoh katalog", price: 30000,
+      { id: 2, name: "PINOZ Booster Buah", category: "Contoh katalog", price: 100000,
         description: "Contoh item katalog untuk kebutuhan perawatan tanaman. Detail produk perlu disesuaikan.", image: "", icon: "🌱" },
-      { id: 3, name: "PINOZ Booster Tanaman", category: "Contoh katalog", price: 35000,
+      { id: 3, name: "PINOZ ZPT (Bio Hormon) ", category: "Contoh katalog", price: 85000,
         description: "Contoh tampilan produk. Cantumkan manfaat dan petunjuk sesuai kemasan resmi.", image: "", icon: "🌾" },
-      { id: 4, name: "PINOZ Nutrisi Buah", category: "Contoh katalog", price: 40000,
+      { id: 4, name: "PINOZ Super Serum", category: "Contoh katalog", price: 100000,
         description: "Contoh item katalog. Silakan ubah nama, keterangan, dan harga sesuai produk asli.", image: "", icon: "🍃" },
-      { id: 5, name: "PINOZ Perawatan Tanaman", category: "Contoh katalog", price: 45000,
+      { id: 5, name: "PINOZ Anti Virus", category: "Contoh katalog", price: 100000,
         description: "Contoh tampilan katalog untuk produk Pinoz lainnya. Informasi masih berupa contoh.", image: "", icon: "🪴" },
-      { id: 6, name: "PINOZ Paket Pertanian", category: "Contoh katalog", price: 55000,
+      { id: 6, name: "PINOZ Suplemen Makro", category: "Contoh katalog", price: 150000,
+        description: "Contoh paket produk. Sesuaikan isi paket, harga, dan deskripsi sebelum dipublikasikan.", image: "", icon: "🌻" }
+      { id: 7, name: "PINOZ Booster Tanah", category: "Contoh katalog", price: 110000,
         description: "Contoh paket produk. Sesuaikan isi paket, harga, dan deskripsi sebelum dipublikasikan.", image: "", icon: "🌻" }
     ];
 
@@ -312,13 +314,13 @@
         "*PESANAN BARU 🌾 - Fertijava Store*",
         "",
         "*DATA CUSTOMER*",
-        `Nama          : ${value("customer-name")}`,
-        `Alamat        : ${value("street")}`,
-        `RT/RW         : ${value("rt")}/${value("rw")}`,
-        `Kelurahan/Desa: ${value("kelurahan")}`,
-        `Kecamatan     : ${value("kecamatan")}`,
-        `Kabupaten/Kota: ${value("kota")}`,
-        `Kode Pos      : ${value("kodepos")}`,
+        `Nama                : ${value("customer-name")}`,
+        `Alamat              : ${value("street")}`,
+        `RT/RW                : ${value("rt")}/${value("rw")}`,
+        `Kelurahan/Desa : ${value("kelurahan")}`,
+        `Kecamatan         : ${value("kecamatan")}`,
+        `Kabupaten/Kota : ${value("kota")}`,
+        `Kode Pos          : ${value("kodepos")}`,
         "",
         "*DETAIL PEMESANAN*",
         orderLines,
