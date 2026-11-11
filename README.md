@@ -211,7 +211,7 @@
       { id: 5, name: "PINOZ Anti Virus", category: "Contoh katalog", price: 100000,
         description: "Contoh tampilan katalog untuk produk Pinoz lainnya. Informasi masih berupa contoh.", image: "", icon: "🪴" },
       { id: 6, name: "PINOZ Suplemen Makro", category: "Contoh katalog", price: 150000,
-        description: "Contoh paket produk. Sesuaikan isi paket, harga, dan deskripsi sebelum dipublikasikan.", image: "", icon: "🌻" }
+        description: "Contoh paket produk. Sesuaikan isi paket, harga, dan deskripsi sebelum dipublikasikan.", image: "", icon: "🌻" },
       { id: 7, name: "PINOZ Booster Tanah", category: "Contoh katalog", price: 110000,
         description: "Contoh paket produk. Sesuaikan isi paket, harga, dan deskripsi sebelum dipublikasikan.", image: "", icon: "🌻" }
     ];
