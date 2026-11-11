@@ -318,9 +318,9 @@
         `Alamat              : ${value("street")}`,
         `RT/RW                : ${value("rt")}/${value("rw")}`,
         `Kelurahan/Desa : ${value("kelurahan")}`,
-        `Kecamatan         : ${value("kecamatan")}`,
+        `Kecamatan        : ${value("kecamatan")}`,
         `Kabupaten/Kota : ${value("kota")}`,
-        `Kode Pos          : ${value("kodepos")}`,
+        `Kode Pos            : ${value("kodepos")}`,
         "",
         "*DETAIL PEMESANAN*",
         orderLines,
@@ -328,6 +328,10 @@
         `*TOTAL: ${total > 0 ? rupiah(total) : "Menunggu konfirmasi harga admin"}*`,
         `Catatan: ${value("notes") || "-"}`,
         "",
+
+        "*Discunt         :",
+        "*Total Bayar     :",
+        
         "Mohon konfirmasi ketersediaan produk dan ongkos kirim. Terima kasih."
       ].join("\n");
 
