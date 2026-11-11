@@ -325,9 +325,9 @@
         "*DETAIL PEMESANAN*",
         orderLines,
         "",
-        `*TOTAL               : ${total > 0 ? rupiah(total) : "Menunggu konfirmasi harga admin"}*`,
-        "*Discunt             :",
-        "*Total Bayar       :",
+        `*TOTAL                : ${total > 0 ? rupiah(total) : "Menunggu konfirmasi harga admin"}*`,
+        "*Discunt             : Rp ",
+        "*Total Bayar       : Rp ",
         `Catatan: ${value("notes") || "-"}`,
         "",
 
