@@ -80,6 +80,9 @@
     input:focus,textarea:focus{outline:2px solid #16744730;border-color:var(--green)}
     textarea{resize:vertical;min-height:76px}
     .submit{width:100%;border-radius:11px;padding:14px;margin-top:16px}
+    .send-actions{display:grid;grid-template-columns:1fr;gap:9px;margin-top:16px}
+    .send-actions .submit{margin-top:0}
+    .submit-customer{background:#245f9e}
     .hint{color:var(--muted);font-size:11px;line-height:1.55;margin-top:9px}
     footer{background:#0b3824;color:#d7eee0;padding:28px 18px;text-align:center;font-size:12px}
     footer strong{color:#fff;font-size:17px;letter-spacing:1px}
@@ -225,10 +228,14 @@
               <div class="field"><label for="kecamatan">Kecamatan *</label><input id="kecamatan" required></div>
               <div class="field"><label for="kota">Kabupaten / Kota *</label><input id="kota" required></div>
               <div class="field"><label for="kodepos">Kode Pos *</label><input id="kodepos" inputmode="numeric" required placeholder="5 digit"></div>
-              <div class="field full"><label for="notes">Catatan pemesanan / Nomor WhatsApp tambahan (opsional)</label><textarea id="notes" placeholder="Contoh: 081234567890, mohon hubungi sebelum pengiriman"></textarea><div class="hint">Jika kolom ini berisi nomor HP/WhatsApp, ringkasan pesanan juga akan dibuka ke nomor tersebut.</div></div>
+              <div class="field full"><label for="customer-phone">Nomor WhatsApp pelanggan (opsional)</label><input id="customer-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Contoh: 081234567890"><div class="hint">Isi nomor WhatsApp pelanggan. Tombol khusus akan membuka chat pelanggan dengan ringkasan pesanan yang sama.</div></div>
+              <div class="field full"><label for="notes">Catatan pemesanan (opsional)</label><textarea id="notes" placeholder="Jumlah tambahan, patokan alamat, atau catatan lainnya"></textarea></div>
             </div>
-            <button class="submit" type="submit">Kirim Pesanan via WhatsApp →</button>
-            <div class="hint">WhatsApp akan terbuka dengan ringkasan pesanan. Pesanan diproses setelah dikonfirmasi admin.</div>
+            <div class="send-actions">
+              <button class="submit" type="submit">1. Kirim ke WhatsApp Admin →</button>
+              <button class="submit submit-customer" type="button" id="send-customer-wa">2. Kirim ke WhatsApp Pelanggan →</button>
+            </div>
+            <div class="hint">Pilih tujuan pengiriman. WhatsApp akan membuka chat dengan ringkasan pesanan; tekan tombol Kirim di WhatsApp untuk mengirim pesan.</div>
           </form>
         </div>
       </div>
@@ -382,28 +389,24 @@
     $("detail-modal").addEventListener("click",event=>{if(event.target===$("detail-modal"))closeDetails();});
     document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeDetails();closeProductZoom();}});
 
-    $("order-form").addEventListener("submit",event=>{
-      event.preventDefault();
-      if(!cart.length){alert("Keranjang masih kosong. Silakan pilih produk terlebih dahulu.");$("produk").scrollIntoView({behavior:"smooth"});return;}
-      if(!/^[0-9]{9,15}$/.test(ADMIN_WA)){alert("Nomor WhatsApp admin belum benar. Periksa variabel ADMIN_WA.");return;}
+    function buildOrderMessage(){
+      if(!cart.length){
+        alert("Keranjang masih kosong. Silakan pilih produk terlebih dahulu.");
+        $("produk").scrollIntoView({behavior:"smooth"});
+        return null;
+      }
       const value=id=>$(id).value.trim();
       const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
       const discountRate=Number($("discount-select").value||0);
       const discountAmount=Math.round(total*discountRate/100);
       const payableTotal=total-discountAmount;
       const orderLines=cart.map(item=>`- ${item.name} x ${item.qty} | ${rupiah(item.price*item.qty)}`).join("\n");
-      const notes=value("notes");
-      // Jika catatan berisi nomor telepon, pesan pesanan juga disiapkan untuk nomor tersebut.
-      const phoneMatches=notes.match(/(?:\+?62|0)?[\s().-]*8(?:[\s().-]*[0-9]){8,12}/g)||[];
-      const customerPhone=phoneMatches.length ? normalizeWhatsAppNumber(phoneMatches[0]) : "";
-      const cleanNotes=customerPhone
-        ? notes.replace(phoneMatches[0],"").replace(/^[\s,;:-]+|[\s,;:-]+$/g,"").trim()
-        : notes;
 
-      const message=[
-        "*PESANAN BARU - PINOZ STORE*","",
+      return [
+        "*PESANAN PINOZ STORE*","",
         "*DATA CUSTOMER*",
         `Nama: ${value("customer-name")}`,
+        `No. WhatsApp: ${value("customer-phone")||"-"}`,
         `Alamat: ${value("street")}`,
         `RT/RW: ${value("rt")}/${value("rw")}`,
         `Kelurahan/Desa: ${value("kelurahan")}`,
@@ -415,21 +418,46 @@
         `Diskon: ${discountRate}%`,
         `Potongan Diskon: -${rupiah(discountAmount)}`,
         `*TOTAL BAYAR: ${rupiah(payableTotal)}*`,
-        `Catatan: ${cleanNotes||"-"}`,"",
+        `Catatan: ${value("notes")||"-"}`,"",
         "Mohon konfirmasi ketersediaan produk dan ongkos kirim. Terima kasih."
       ].join("\n");
+    }
 
-      // Buka chat admin dan chat nomor tambahan jika ditemukan di kolom catatan.
-      const adminUrl="https://wa.me/"+ADMIN_WA+"?text="+encodeURIComponent(message);
-      window.open(adminUrl,"_blank");
-      if(customerPhone && customerPhone!==ADMIN_WA){
-        const customerUrl="https://wa.me/"+customerPhone+"?text="+encodeURIComponent(message);
-        window.open(customerUrl,"_blank");
-        showToast("Chat WhatsApp admin dan nomor tambahan telah disiapkan");
-      }else{
-        showToast("Chat WhatsApp admin telah disiapkan");
+    function normalizeWhatsAppNumber(raw){
+      let digits=String(raw||"").replace(/\D/g,"");
+      if(digits.startsWith("0"))digits="62"+digits.slice(1);
+      else if(digits.startsWith("8"))digits="62"+digits;
+      return /^62[0-9]{8,13}$/.test(digits) ? digits : "";
+    }
+
+    function openWhatsAppChat(number,message){
+      const url="https://wa.me/"+number+"?text="+encodeURIComponent(message);
+      window.open(url,"_blank");
+    }
+
+    $("order-form").addEventListener("submit",event=>{
+      event.preventDefault();
+      if(!/^[0-9]{9,15}$/.test(ADMIN_WA)){
+        alert("Nomor WhatsApp admin belum benar. Periksa variabel ADMIN_WA.");
+        return;
       }
+      const message=buildOrderMessage();
+      if(message===null)return;
+      openWhatsAppChat(ADMIN_WA,message);
     });
+
+    $("send-customer-wa").addEventListener("click",()=>{
+      const customerPhone=normalizeWhatsAppNumber($("customer-phone").value);
+      if(!customerPhone){
+        alert("Masukkan nomor WhatsApp pelanggan yang valid, contoh 081234567890.");
+        $("customer-phone").focus();
+        return;
+      }
+      const message=buildOrderMessage();
+      if(message===null)return;
+      openWhatsAppChat(customerPhone,message);
+    });
+
     $("year").textContent=new Date().getFullYear();
     renderProducts();renderCart();
   </script>
