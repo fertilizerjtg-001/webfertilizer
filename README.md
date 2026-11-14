@@ -200,8 +200,15 @@
     const ADMIN_WA = "62881025173774"; // WAJIB GANTI DENGAN NOMOR WHATSAPP ADMIN
 
     const PRODUCTS = [
-      { id: 1, name: "PINOZ Nutrisi Kompleks", category: "Contoh katalog", price: 120000,
-        description: "Contoh tampilan produk. Ganti deskripsi sesuai informasi pada label resmi.", image src="(https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png)", icon: "🌿" },
+      { {
+  id: 1,
+  name: "PINOZ Nutrisi Kompleks",
+  category: "Contoh katalog",
+  price: 120000,
+  description: "Contoh tampilan produk.",
+  image: "https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",
+  icon: "🌿"
+}, },
       { id: 2, name: "PINOZ Booster Buah", category: "Contoh katalog", price: 100000,
         description: "Contoh item katalog untuk kebutuhan perawatan tanaman. Detail produk perlu disesuaikan.", image: "", icon: "🌱" },
       { id: 3, name: "PINOZ ZPT (Bio Hormon) ", category: "Contoh katalog", price: 85000,
