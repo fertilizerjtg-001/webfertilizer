@@ -1,109 +1,116 @@
-
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="PINOZ Store - katalog produk dan pemesanan produk pertanian secara mudah melalui WhatsApp.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="PINOZ Store - katalog produk dan pemesanan produk pertanian melalui WhatsApp.">
+  <meta name="theme-color" content="#0c4f31">
   <title>PINOZ Store | Belanja Produk Pertanian</title>
   <style>
-    :root {
-      --green: #167447; --green-dark: #0c4f31; --mint: #eaf7ef;
-      --lime: #b9e769; --ink: #183329; --muted: #687b71;
-      --line: #e3ece6; --white: #fff; --bg: #f7faf7;
-      --shadow: 0 14px 38px rgba(18, 65, 42, .09);
+    :root{--green:#167447;--dark:#0c4f31;--mint:#eaf7ef;--lime:#b9e769;--ink:#183329;--muted:#687b71;--line:#e3ece6;--bg:#f7faf7;--shadow:0 12px 32px rgba(18,65,42,.09)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+    button,input,textarea{font:inherit}button{cursor:pointer}
+    .topbar{background:var(--dark);color:#e9fff1;text-align:center;padding:8px 12px;font-size:12px}
+    header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line)}
+    .nav{max-width:1160px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:9px;color:var(--dark);text-decoration:none;font-weight:900;font-size:21px;letter-spacing:.5px}
+    .brand-mark{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:var(--lime)}
+    .nav-links{display:flex;gap:22px;align-items:center}
+    .nav-links a{color:var(--ink);text-decoration:none;font-size:13px;font-weight:700}
+    .cart-button,.add-btn,.submit{border:0;background:var(--green);color:#fff;font-weight:800}
+    .cart-button{border-radius:999px;padding:10px 15px;white-space:nowrap}
+    .hero{background:radial-gradient(circle at 85% 20%,rgba(185,231,105,.3),transparent 28%),linear-gradient(120deg,#0c4f31,#167447 65%,#2b8c5a);color:#fff}
+    .hero-inner{max-width:1160px;margin:auto;padding:56px 22px;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:32px}
+    .eyebrow{display:inline-block;padding:6px 11px;border-radius:99px;background:#ffffff20;color:#e9ffd2;font-size:11px;font-weight:850;letter-spacing:1px}
+    h1{font-size:clamp(34px,5vw,58px);line-height:1.08;letter-spacing:-1.5px;margin:15px 0}
+    .hero p{max-width:580px;color:#e1f3e8;font-size:15px;line-height:1.75}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+    .btn{display:inline-flex;justify-content:center;align-items:center;padding:12px 17px;border-radius:11px;text-decoration:none;font-weight:850;font-size:13px}
+    .btn-primary{background:var(--lime);color:var(--dark)}.btn-light{background:#fff;color:var(--dark)}
+    .hero-art{min-height:220px;border:1px solid #ffffff45;border-radius:24px;background:#ffffff16;display:grid;place-items:center;text-align:center;padding:24px}
+    .hero-art .leaf{font-size:76px}.hero-art strong{display:block;font-size:21px;margin:5px 0}.hero-art span{font-size:12px;color:#d9f1df}
+    .section{max-width:1160px;margin:auto;padding:52px 20px}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}
+    .section-kicker{color:var(--green);font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}
+    h2{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;margin:5px 0 0}
+    .section-head p{margin:0;color:var(--muted);font-size:13px}
+    .products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .product{min-width:0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 5px 20px #14462d0a;display:flex;flex-direction:column}
+    .product-image{height:210px;display:grid;place-items:center;position:relative;background:linear-gradient(145deg,#eaf7ef,#f8fbea);overflow:hidden}
+    .product-image img{width:100%;height:100%;object-fit:contain;padding:12px;display:block}
+    .placeholder{text-align:center;padding:16px;color:var(--green)}
+    .placeholder b{display:block;font-size:55px;line-height:1.2}
+    .placeholder span{font-size:10px;font-weight:900;letter-spacing:1px}
+    .product-body{padding:17px;display:flex;flex-direction:column;flex:1}
+    .product-tag{align-self:flex-start;color:var(--green);background:var(--mint);border-radius:99px;padding:4px 8px;font-size:10px;font-weight:900;text-transform:uppercase}
+    .product h3{font-size:18px;line-height:1.3;margin:10px 0 6px}
+    .product-desc{color:var(--muted);font-size:13px;line-height:1.65;min-height:62px}
+    .product-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+    .price{font-size:17px;font-weight:950;color:var(--dark)}
+    .product-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .add-btn{border-radius:9px;padding:10px 12px;font-size:12px}
+    .detail-btn{border:1px solid #cfe2d5;background:#fff;color:var(--dark);border-radius:9px;padding:9px 11px;font-size:12px;font-weight:800}
+    .how{background:var(--mint)}
+    .how-inner{max-width:1160px;margin:auto;padding:40px 20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+    .step{background:#fff;border-radius:16px;padding:20px}
+    .step b{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--lime);color:var(--dark)}
+    .step h3{margin:12px 0 5px;font-size:16px}.step p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+    .checkout-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;align-items:start}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:21px;box-shadow:0 5px 20px #14462d0a;min-width:0}
+    .panel h3{margin:0 0 14px;font-size:18px}
+    .empty{color:var(--muted);font-size:13px;padding:12px 0}
+    .cart-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+    .cart-row strong{display:block;font-size:13px}.cart-row small{color:var(--muted);font-size:11px}
+    .qty{display:flex;align-items:center;gap:7px}.qty button{width:29px;height:29px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--green);font-weight:900}
+    .remove{border:0;background:transparent;color:#b34b4b;font-size:11px;padding:5px 0}
+    .total{display:flex;justify-content:space-between;gap:10px;padding-top:16px;margin-top:7px;font-weight:950;font-size:16px}
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .field{display:flex;flex-direction:column;gap:6px;min-width:0}.field.full{grid-column:1/-1}
+    label{font-size:12px;font-weight:800;color:#385548}
+    input,textarea{width:100%;min-width:0;border:1px solid #dce8df;border-radius:10px;padding:11px 12px;color:var(--ink);background:#fcfefc}
+    input:focus,textarea:focus{outline:2px solid #16744730;border-color:var(--green)}
+    textarea{resize:vertical;min-height:76px}
+    .submit{width:100%;border-radius:11px;padding:14px;margin-top:16px}
+    .hint{color:var(--muted);font-size:11px;line-height:1.55;margin-top:9px}
+    footer{background:#0b3824;color:#d7eee0;padding:28px 18px;text-align:center;font-size:12px}
+    footer strong{color:#fff;font-size:17px;letter-spacing:1px}
+    .toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,120px);background:#173f2b;color:#fff;padding:12px 17px;border-radius:99px;font-size:13px;z-index:60;transition:transform .25s;box-shadow:var(--shadow);max-width:90vw;text-align:center}
+    .toast.show{transform:translate(-50%,0)}
+    .modal-backdrop{position:fixed;inset:0;background:#071d13a8;display:none;align-items:center;justify-content:center;padding:18px;z-index:80}
+    .modal-backdrop.open{display:flex}
+    .modal{background:#fff;border-radius:18px;max-width:520px;width:100%;max-height:85vh;overflow:auto;padding:22px;box-shadow:var(--shadow)}
+    .modal-head{display:flex;justify-content:space-between;align-items:start;gap:12px}
+    .modal h3{margin:0;font-size:21px}.modal-close{border:0;background:var(--mint);color:var(--dark);border-radius:9px;width:35px;height:35px;font-size:20px}
+    .modal p{color:var(--muted);font-size:14px;line-height:1.7}
+    .modal-note{padding:12px;border-radius:10px;background:var(--mint);font-size:12px;color:var(--dark)}
+    [hidden]{display:none!important}
+    /* Breakpoint dibuat lebih longgar agar browser HP yang memakai lebar layout desktop tetap nyaman. */
+    @media(max-width:1100px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}.nav-links{display:none}}
+    @media(max-width:700px){
+      .hero-inner{grid-template-columns:1fr;padding:38px 16px;gap:22px}
+      .hero-art{min-height:165px}.hero-art .leaf{font-size:58px}
+      .section{padding:38px 15px}.section-head{align-items:flex-start;flex-direction:column;gap:7px}
+      .products{grid-template-columns:1fr;gap:14px}
+      .product{display:grid;grid-template-columns: minmax(105px,34%) minmax(0,1fr);align-items:stretch}
+      .product-image{height:100%;min-height:190px}
+      .product-body{padding:13px}
+      .product h3{font-size:16px}
+      .product-desc{font-size:12px;min-height:0}
+      .product-bottom{align-items:flex-start;flex-direction:column;margin-top:10px}
+      .price{font-size:16px}
+      .how-inner{grid-template-columns:1fr;padding:28px 15px}
+      .checkout-layout{grid-template-columns:1fr}
+      .panel{padding:16px}
+      .nav{padding:10px 14px}.brand{font-size:19px}
+      .cart-button{padding:9px 11px;font-size:12px}
     }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; color: var(--ink); background: var(--bg); }
-    button, input, textarea { font: inherit; }
-    button { cursor: pointer; }
-    .topbar { background: var(--green-dark); color: #e9fff1; text-align: center; padding: 9px 16px; font-size: 12px; letter-spacing: .3px; }
-    header { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
-    .nav { max-width: 1160px; margin: auto; padding: 15px 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 23px; letter-spacing: 1px; color: var(--green-dark); text-decoration: none; }
-    .brand-mark { width: 38px; height: 38px; border-radius: 13px; display: grid; place-items: center; color: var(--green-dark); background: var(--lime); font-size: 20px; }
-    .nav-links { display: flex; gap: 25px; align-items: center; }
-    .nav-links a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 650; }
-    .cart-button { border: 0; border-radius: 999px; background: var(--green); color: white; padding: 11px 17px; font-weight: 750; }
-    .hero { overflow: hidden; background: radial-gradient(circle at 85% 20%, rgba(185,231,105,.32), transparent 28%), linear-gradient(120deg, #0c4f31, #167447 62%, #2b8c5a); color: white; }
-    .hero-inner { max-width: 1160px; margin: auto; padding: 76px 22px 82px; display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 40px; }
-    .eyebrow { display: inline-flex; padding: 7px 12px; border-radius: 999px; background: rgba(255,255,255,.13); color: #e9ffd2; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
-    h1 { margin: 18px 0 14px; font-size: clamp(38px, 5vw, 61px); line-height: 1.05; letter-spacing: -2px; }
-    .hero p { max-width: 560px; color: #e1f3e8; line-height: 1.75; font-size: 16px; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 27px; }
-    .btn-primary, .btn-light { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 12px; padding: 14px 20px; font-weight: 800; text-decoration: none; }
-    .btn-primary { background: var(--lime); color: var(--green-dark); }
-    .btn-light { background: white; color: var(--green-dark); }
-    .hero-art { min-height: 280px; border: 1px solid rgba(255,255,255,.25); border-radius: 28px; background: rgba(255,255,255,.10); display: grid; place-items: center; padding: 28px; text-align: center; }
-    .hero-art .leaf { font-size: 100px; filter: drop-shadow(0 15px 18px rgba(0,0,0,.15)); }
-    .hero-art strong { display: block; font-size: 23px; margin-top: 8px; }
-    .hero-art span { color: #d9f1df; font-size: 13px; }
-    .section { max-width: 1160px; margin: auto; padding: 65px 22px; }
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 25px; }
-    .section-kicker { color: var(--green); font-size: 12px; font-weight: 850; letter-spacing: 1.4px; text-transform: uppercase; }
-    h2 { font-size: clamp(27px, 3vw, 36px); letter-spacing: -1px; margin: 8px 0 0; }
-    .section-head p { color: var(--muted); margin: 0; font-size: 14px; }
-    .products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .product { background: white; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; box-shadow: 0 5px 20px rgba(20,70,45,.04); transition: transform .2s, box-shadow .2s; }
-    .product:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-    .product-image { height: 205px; display: grid; place-items: center; background: linear-gradient(145deg, #eaf7ef, #f8fbea); color: var(--green); position: relative; }
-    .product-image img { width: 100%; height: 100%; object-fit: contain; padding: 12px; display: block; }
-    .product-image .placeholder { text-align: center; padding: 18px; }
-    .product-image [hidden] { display: none !important; }
-    .product-image .placeholder b { display: block; font-size: 54px; }
-    .product-image .placeholder span { font-size: 12px; font-weight: 800; letter-spacing: 1px; }
-    .product-body { padding: 19px; }
-    .product-tag { color: var(--green); background: var(--mint); display: inline-block; border-radius: 99px; padding: 5px 9px; font-size: 10px; font-weight: 850; text-transform: uppercase; letter-spacing: .6px; }
-    .product h3 { margin: 12px 0 7px; font-size: 19px; }
-    .product-desc { color: var(--muted); font-size: 13px; line-height: 1.6; min-height: 42px; }
-    .product-bottom { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 17px; }
-    .price { font-weight: 900; color: var(--green-dark); font-size: 18px; }
-    .add-btn { border: 0; border-radius: 10px; background: var(--green); color: white; padding: 11px 14px; font-size: 12px; font-weight: 800; }
-    .how { background: var(--mint); }
-    .how-inner { max-width: 1160px; margin: auto; padding: 48px 22px; display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
-    .step { background: white; border-radius: 17px; padding: 23px; }
-    .step b { display: grid; place-items: center; width: 35px; height: 35px; border-radius: 11px; background: var(--lime); color: var(--green-dark); }
-    .step h3 { margin: 14px 0 6px; font-size: 16px; }
-    .step p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
-    .checkout-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 22px; align-items: start; }
-    .panel { background: white; border: 1px solid var(--line); border-radius: 20px; padding: 24px; box-shadow: 0 5px 20px rgba(20,70,45,.04); }
-    .panel h3 { margin: 0 0 17px; font-size: 19px; }
-    .empty { color: var(--muted); font-size: 14px; padding: 15px 0; }
-    .cart-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
-    .cart-row strong { display: block; font-size: 14px; }
-    .cart-row small { color: var(--muted); }
-    .qty { display: flex; align-items: center; gap: 9px; }
-    .qty button { width: 27px; height: 27px; border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--green); font-weight: 900; }
-    .remove { border: 0; background: transparent; color: #b34b4b; font-size: 11px; padding: 5px 0; }
-    .total { display: flex; justify-content: space-between; padding-top: 18px; margin-top: 8px; font-weight: 900; font-size: 17px; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
-    .field { display: flex; flex-direction: column; gap: 7px; }
-    .field.full { grid-column: 1 / -1; }
-    label { font-size: 12px; font-weight: 800; color: #385548; }
-    input, textarea { width: 100%; border: 1px solid #dce8df; border-radius: 10px; padding: 12px 13px; outline: none; color: var(--ink); background: #fcfefc; }
-    input:focus, textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(22,116,71,.09); }
-    textarea { resize: vertical; min-height: 75px; }
-    .submit { width: 100%; border: 0; border-radius: 12px; background: #20a45a; color: white; padding: 15px; margin-top: 18px; font-weight: 900; }
-    .hint { color: var(--muted); font-size: 11px; line-height: 1.55; margin-top: 10px; }
-    footer { background: #0b3824; color: #d7eee0; padding: 30px 22px; text-align: center; font-size: 12px; }
-    footer strong { color: white; font-size: 17px; letter-spacing: 1px; }
-    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #173f2b; color: white; padding: 12px 18px; border-radius: 99px; font-size: 13px; z-index: 50; transition: .25s; box-shadow: var(--shadow); }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-    @media (max-width: 800px) {
-      .hero-inner { grid-template-columns: 1fr; padding-top: 55px; }
-      .hero-art { min-height: 210px; }
-      .products { grid-template-columns: repeat(2,1fr); }
-      .checkout-layout { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-    }
-    @media (max-width: 540px) {
-      .products, .how-inner { grid-template-columns: 1fr; }
-      .section { padding: 48px 16px; }
-      .hero-inner { padding: 48px 17px; }
-      .section-head { align-items: start; flex-direction: column; }
-      .form-grid { grid-template-columns: 1fr; }
-      .field.full { grid-column: auto; }
-      .nav { padding: 12px 16px; }
+    @media(max-width:390px){
+      .product{grid-template-columns:1fr}
+      .product-image{height:185px;min-height:185px}
+      .product-bottom{flex-direction:row;align-items:center}
+      .form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
     }
   </style>
 </head>
@@ -112,10 +119,8 @@
   <header>
     <nav class="nav">
       <a class="brand" href="#"><span class="brand-mark">✳</span> PINOZ</a>
-      <div class="nav-links">
-        <a href="#produk">Produk</a><a href="#cara-pesan">Cara Pemesanan</a><a href="#checkout">Checkout</a>
-      </div>
-      <button class="cart-button" onclick="document.querySelector('#checkout').scrollIntoView({behavior:'smooth'})">🛒 Keranjang (<span id="cart-count">0</span>)</button>
+      <div class="nav-links"><a href="#produk">Produk</a><a href="#cara-pesan">Cara Pemesanan</a><a href="#checkout">Checkout</a></div>
+      <button class="cart-button" type="button" id="go-cart">🛒 Keranjang (<span id="cart-count">0</span>)</button>
     </nav>
   </header>
 
@@ -125,39 +130,31 @@
         <div>
           <span class="eyebrow">PINOZ • Solusi kebutuhan pertanian</span>
           <h1>Dukung pertanian<br>lebih produktif.</h1>
-          <p>Temukan produk Pinoz untuk membantu memenuhi kebutuhan pertanian Anda. Pilih produk, masukkan ke keranjang, lalu kirim pesanan langsung melalui WhatsApp.</p>
-          <div class="hero-actions">
-            <a class="btn-primary" href="#produk">Lihat Produk</a>
-            <a class="btn-light" href="#cara-pesan">Cara Pemesanan</a>
-          </div>
+          <p>Temukan produk Pinoz untuk membantu memenuhi kebutuhan pertanian Anda. Pilih produk, lihat detailnya, masukkan ke keranjang, lalu kirim pesanan langsung melalui WhatsApp.</p>
+          <div class="hero-actions"><a class="btn btn-primary" href="#produk">Lihat Produk</a><a class="btn btn-light" href="#cara-pesan">Cara Pemesanan</a></div>
         </div>
-        <div class="hero-art">
-          <div><div class="leaf">🌱</div><strong>Tumbuh • Rawat • Panen</strong><span>Mulai pemesanan produk Pinoz di sini</span></div>
-        </div>
+        <div class="hero-art"><div><div class="leaf">🌱</div><strong>Tumbuh • Rawat • Panen</strong><span>Mulai pemesanan produk Pinoz di sini</span></div></div>
       </div>
     </section>
 
     <section class="section" id="produk">
       <div class="section-head">
         <div><div class="section-kicker">Katalog pilihan</div><h2>Produk Pinoz</h2></div>
-        <p>7 contoh produk sudah tersedia. Nama, foto, dan harga masih contoh.</p>
+        <p>7 produk katalog • Tekan “Detail” untuk membaca keterangan produk.</p>
       </div>
-      <div class="products" id="product-list"></div>
+      <div class="products" id="product-list" aria-live="polite"></div>
     </section>
 
     <section class="how" id="cara-pesan">
       <div class="how-inner">
-        <div class="step"><b>01</b><h3>Pilih Produk</h3><p>Jelajahi katalog dan tambahkan produk yang dibutuhkan ke keranjang.</p></div>
+        <div class="step"><b>01</b><h3>Pilih Produk</h3><p>Jelajahi katalog, baca detail produk, lalu tambahkan produk yang dibutuhkan ke keranjang.</p></div>
         <div class="step"><b>02</b><h3>Isi Data Customer</h3><p>Lengkapi nama, alamat, dan detail pesanan agar admin dapat memprosesnya.</p></div>
-        <div class="step"><b>03</b><h3>Kirim via WhatsApp</h3><p>Tekan tombol pesan. Rincian pesanan akan disiapkan otomatis di WhatsApp.</p></div>
+        <div class="step"><b>03</b><h3>Kirim via WhatsApp</h3><p>Periksa jumlah dan total pesanan, kemudian kirim ringkasan pesanan ke WhatsApp admin.</p></div>
       </div>
     </section>
 
     <section class="section" id="checkout">
-      <div class="section-head">
-        <div><div class="section-kicker">Selesaikan pesanan</div><h2>Keranjang & Data Customer</h2></div>
-        <p>Periksa pesanan sebelum dikirim.</p>
-      </div>
+      <div class="section-head"><div><div class="section-kicker">Selesaikan pesanan</div><h2>Keranjang & Data Customer</h2></div><p>Periksa pesanan sebelum dikirim.</p></div>
       <div class="checkout-layout">
         <div class="panel">
           <h3>🛒 Keranjang Belanja</h3>
@@ -179,171 +176,146 @@
               <div class="field full"><label for="notes">Catatan pemesanan (opsional)</label><textarea id="notes" placeholder="Jumlah tambahan, patokan alamat, atau catatan lainnya"></textarea></div>
             </div>
             <button class="submit" type="submit">Kirim Pesanan via WhatsApp →</button>
-            <div class="hint">Dengan menekan tombol ini, website akan membuka WhatsApp dengan ringkasan pesanan. Pesanan baru diproses setelah dikonfirmasi oleh admin.</div>
+            <div class="hint">WhatsApp akan terbuka dengan ringkasan pesanan. Pesanan diproses setelah dikonfirmasi admin.</div>
           </form>
         </div>
       </div>
     </section>
   </main>
-
   <footer><strong>PINOZ STORE</strong><p>Solusi kebutuhan pertanian Anda.</p><span>© <span id="year"></span> PINOZ Store. All rights reserved.</span></footer>
-  <div class="toast" id="toast">Produk ditambahkan ke keranjang</div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="modal-backdrop" id="detail-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal-head"><div><span class="section-kicker">Informasi produk</span><h3 id="modal-title">Detail Produk</h3></div><button class="modal-close" type="button" id="close-modal" aria-label="Tutup">×</button></div>
+      <p id="modal-description"></p>
+      <div class="modal-note">Catatan: manfaat, dosis, komposisi, dan cara penggunaan harus mengikuti label resmi produk. Lengkapi keterangan ini dengan informasi produk yang sebenarnya sebelum dipublikasikan.</div>
+      <button class="add-btn" type="button" id="modal-add" style="margin-top:15px">+ Tambahkan ke Keranjang</button>
+    </div>
+  </div>
 
   <script>
-    /*
-      PENGATURAN TOKO:
-      1. Ganti nomor WhatsApp di bawah dengan nomor admin.
-         Format: kode negara + nomor, tanpa +, spasi, atau tanda hubung.
-         Contoh Indonesia: 6281234567890
-      2. Edit daftar produk di PRODUCTS: nama, harga, deskripsi, kategori, dan gambar.
-      3. Harga harus berupa angka tanpa titik/koma. Contoh Rp25.000 ditulis 25000.
-    */
-    const ADMIN_WA = "62881025173774"; // WAJIB GANTI DENGAN NOMOR WHATSAPP ADMIN
+    "use strict";
+    // Ganti nomor ini dengan nomor WhatsApp admin (format 62xxxxxxxxxx).
+    const ADMIN_WA = "62881025173774";
 
+    // Isi deskripsi berdasarkan label resmi produk. Jangan mencantumkan klaim/dosis yang belum diverifikasi.
     const PRODUCTS = [
-      { id: 1, name: "PINOZ Nutrisi Kompleks", category: "Contoh katalog", price: 120000,
-        description: "Contoh tampilan produk. Ganti deskripsi sesuai informasi pada label resmi.", image: "https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png", icon: "🌿" },
-      { id: 2, name: "PINOZ Booster Buah", category: "Contoh katalog", price: 100000,
-        description: "Contoh item katalog untuk kebutuhan perawatan tanaman. Detail produk perlu disesuaikan.", image: "", icon: "🌱" },
-      { id: 3, name: "PINOZ ZPT (Bio Hormon) ", category: "Contoh katalog", price: 85000,
-        description: "Contoh tampilan produk. Cantumkan manfaat dan petunjuk sesuai kemasan resmi.", image: "", icon: "🌾" },
-      { id: 4, name: "PINOZ Super Serum", category: "Contoh katalog", price: 100000,
-        description: "Contoh item katalog. Silakan ubah nama, keterangan, dan harga sesuai produk asli.", image: "", icon: "🍃" },
-      { id: 5, name: "PINOZ Anti Virus", category: "Contoh katalog", price: 100000,
-        description: "Contoh tampilan katalog untuk produk Pinoz lainnya. Informasi masih berupa contoh.", image: "", icon: "🪴" },
-      { id: 6, name: "PINOZ Suplemen Makro", category: "Contoh katalog", price: 150000,
-        description: "Contoh paket produk. Sesuaikan isi paket, harga, dan deskripsi sebelum dipublikasikan.", image: "", icon: "🌻" },
-      { id: 7, name: "PINOZ Booster Tanah", category: "Contoh katalog", price: 110000,
-        description: "Contoh paket produk. Sesuaikan isi paket, harga, dan deskripsi sebelum dipublikasikan.", image: "", icon: "🌻" }
+      {id:1,name:"PINOZ Nutrisi Kompleks",category:"Nutrisi tanaman",price:120000,description:"Produk nutrisi kompleks untuk kebutuhan perawatan tanaman. Lengkapi keterangan komposisi, manfaat, dosis, dan cara aplikasi berdasarkan label resmi.",image:"https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",icon:"🌿"},
+      {id:2,name:"PINOZ Booster Buah",category:"Perawatan tanaman",price:100000,description:"Produk dengan nama dagang Booster Buah. Tambahkan informasi fungsi, jenis tanaman sasaran, dosis, dan waktu aplikasi sesuai petunjuk resmi produk.",image:"",icon:"🌱"},
+      {id:3,name:"PINOZ ZPT (Bio Hormon)",category:"ZPT",price:85000,description:"Produk kategori zat pengatur tumbuh sesuai penamaan produk. Lengkapi kandungan bahan aktif, sasaran penggunaan, dosis, dan cara aplikasi dari label resmi.",image:"",icon:"🌾"},
+      {id:4,name:"PINOZ Super Serum",category:"Perawatan tanaman",price:100000,description:"Produk PINOZ Super Serum. Masukkan uraian manfaat, kandungan, tanaman sasaran, dan petunjuk penggunaan yang tercantum pada kemasan resmi.",image:"",icon:"🍃"},
+      {id:5,name:"PINOZ Anti Virus",category:"Perlindungan tanaman",price:100000,description:"Produk dengan nama dagang Anti Virus. Pastikan keterangan fungsi, organisme sasaran, status/perizinan, dan cara penggunaan ditulis sesuai label resmi.",image:"",icon:"🪴"},
+      {id:6,name:"PINOZ Suplemen Makro",category:"Nutrisi tanaman",price:150000,description:"Produk suplemen makro. Lengkapi daftar unsur/kandungan, manfaat, tanaman sasaran, dosis, dan cara aplikasi berdasarkan informasi resmi pada kemasan.",image:"",icon:"🌻"},
+      {id:7,name:"PINOZ Booster Tanah",category:"Perawatan tanah",price:110000,description:"Produk dengan nama dagang Booster Tanah. Tambahkan informasi komposisi, fungsi, dosis, dan metode aplikasi sesuai label resmi produk.",image:"",icon:"🌻"}
     ];
 
     let cart = [];
-    const rupiah = value => new Intl.NumberFormat("id-ID", {
-      style: "currency", currency: "IDR", maximumFractionDigits: 0
-    }).format(value);
+    let selectedProductId = null;
+    let toastTimer = null;
+    const $ = id => document.getElementById(id);
+    const rupiah = value => new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(value);
 
-    function renderProducts() {
-      const list = document.getElementById("product-list");
+    function renderProducts(){
+      const list = $("product-list");
       list.innerHTML = PRODUCTS.map(p => `
         <article class="product">
           <div class="product-image">
-            ${p.image
-              ? `<img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" onerror="this.hidden=true;this.nextElementSibling.hidden=false">`
-              : ""}
-            <div class="placeholder" ${p.image ? 'hidden' : ""}><b>${p.icon || "🌿"}</b><span>PINOZ • CONTOH KATALOG</span></div>
+            ${p.image ? `<img src="${p.image}" alt="${escapeHTML(p.name)}" loading="lazy" decoding="async" onerror="this.hidden=true;this.parentElement.querySelector('.placeholder').hidden=false">` : ""}
+            <div class="placeholder" ${p.image ? "hidden" : ""}><b>${p.icon}</b><span>PINOZ • ${escapeHTML(p.category.toUpperCase())}</span></div>
           </div>
           <div class="product-body">
-            <span class="product-tag">${p.category}</span>
-            <h3>${p.name}</h3>
-            <div class="product-desc">${p.description}</div>
+            <span class="product-tag">${escapeHTML(p.category)}</span>
+            <h3>${escapeHTML(p.name)}</h3>
+            <div class="product-desc">${escapeHTML(shortDescription(p.description))}</div>
             <div class="product-bottom">
               <span class="price">${p.price > 0 ? rupiah(p.price) : "Hubungi admin"}</span>
-              <button class="add-btn" onclick="addToCart(${p.id})">+ Keranjang</button>
+              <div class="product-actions">
+                <button class="detail-btn" type="button" data-detail="${p.id}">Detail</button>
+                <button class="add-btn" type="button" data-add="${p.id}">+ Keranjang</button>
+              </div>
             </div>
           </div>
         </article>`).join("");
     }
-
-    function addToCart(id) {
-      const product = PRODUCTS.find(p => p.id === id);
-      const found = cart.find(item => item.id === id);
-      if (found) found.qty++;
-      else cart.push({ ...product, qty: 1 });
-      renderCart();
-      showToast(product.name + " ditambahkan");
+    function shortDescription(text){return text.length > 115 ? text.slice(0,112).trim()+"…" : text;}
+    function escapeHTML(value){return String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+    function showToast(message){
+      $("toast").textContent=message;$("toast").classList.add("show");
+      clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200);
     }
-
-    function changeQty(id, amount) {
-      const item = cart.find(p => p.id === id);
-      if (!item) return;
-      item.qty += amount;
-      if (item.qty <= 0) cart = cart.filter(p => p.id !== id);
-      renderCart();
+    function addToCart(id){
+      const product=PRODUCTS.find(p=>p.id===Number(id));if(!product)return;
+      const existing=cart.find(item=>item.id===product.id);
+      if(existing)existing.qty+=1;else cart.push({...product,qty:1});
+      renderCart();showToast(product.name+" ditambahkan ke keranjang");
     }
-
-    function removeItem(id) {
-      cart = cart.filter(p => p.id !== id);
+    function changeQty(id,delta){
+      const item=cart.find(p=>p.id===Number(id));if(!item)return;
+      item.qty+=delta;if(item.qty<=0)cart=cart.filter(p=>p.id!==Number(id));
       renderCart();
     }
-
-    function renderCart() {
-      const container = document.getElementById("cart-items");
-      const count = cart.reduce((sum, item) => sum + item.qty, 0);
-      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-      document.getElementById("cart-count").textContent = count;
-      document.getElementById("cart-total").textContent = rupiah(total);
-
-      if (!cart.length) {
-        container.innerHTML = '<div class="empty">Keranjang masih kosong. Silakan pilih produk terlebih dahulu.</div>';
-        return;
-      }
-      container.innerHTML = cart.map(item => `
+    function removeItem(id){cart=cart.filter(p=>p.id!==Number(id));renderCart();showToast("Produk dihapus dari keranjang");}
+    function renderCart(){
+      const container=$("cart-items");
+      const count=cart.reduce((sum,item)=>sum+item.qty,0);
+      const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+      $("cart-count").textContent=count;$("cart-total").textContent=rupiah(total);
+      if(!cart.length){container.innerHTML='<div class="empty">Keranjang masih kosong. Silakan pilih produk terlebih dahulu.</div>';return;}
+      container.innerHTML=cart.map(item=>`
         <div class="cart-row">
-          <div><strong>${item.name}</strong><small>${item.price > 0 ? rupiah(item.price) : "Harga dikonfirmasi admin"} / produk</small><br>
-            <button class="remove" onclick="removeItem(${item.id})">Hapus produk</button></div>
-          <div class="qty"><button type="button" onclick="changeQty(${item.id},-1)">−</button><b>${item.qty}</b><button type="button" onclick="changeQty(${item.id},1)">+</button></div>
+          <div><strong>${escapeHTML(item.name)}</strong><small>${rupiah(item.price)} / produk</small><br><button class="remove" type="button" data-remove="${item.id}">Hapus produk</button></div>
+          <div class="qty"><button type="button" aria-label="Kurangi jumlah" data-qty="${item.id}" data-delta="-1">−</button><b>${item.qty}</b><button type="button" aria-label="Tambah jumlah" data-qty="${item.id}" data-delta="1">+</button></div>
         </div>`).join("");
     }
-
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.classList.add("show");
-      clearTimeout(window.toastTimer);
-      window.toastTimer = setTimeout(() => toast.classList.remove("show"), 2100);
+    function openDetails(id){
+      const product=PRODUCTS.find(p=>p.id===Number(id));if(!product)return;
+      selectedProductId=product.id;$("modal-title").textContent=product.name;
+      $("modal-description").textContent=product.description+" Harga: "+rupiah(product.price)+".";
+      $("detail-modal").classList.add("open");$("close-modal").focus();
     }
+    function closeDetails(){$("detail-modal").classList.remove("open");selectedProductId=null;}
+    $("product-list").addEventListener("click",event=>{
+      const add=event.target.closest("[data-add]");const detail=event.target.closest("[data-detail]");
+      if(add)addToCart(add.dataset.add);if(detail)openDetails(detail.dataset.detail);
+    });
+    $("cart-items").addEventListener("click",event=>{
+      const qty=event.target.closest("[data-qty]");const remove=event.target.closest("[data-remove]");
+      if(qty)changeQty(qty.dataset.qty,Number(qty.dataset.delta));if(remove)removeItem(remove.dataset.remove);
+    });
+    $("go-cart").addEventListener("click",()=>$("checkout").scrollIntoView({behavior:"smooth"}));
+    $("close-modal").addEventListener("click",closeDetails);
+    $("modal-add").addEventListener("click",()=>{if(selectedProductId!==null)addToCart(selectedProductId);closeDetails();});
+    $("detail-modal").addEventListener("click",event=>{if(event.target===$("detail-modal"))closeDetails();});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape")closeDetails();});
 
-    document.getElementById("order-form").addEventListener("submit", function(event) {
+    $("order-form").addEventListener("submit",event=>{
       event.preventDefault();
-      if (!cart.length) {
-        alert("Keranjang masih kosong. Silakan pilih produk terlebih dahulu.");
-        document.getElementById("produk").scrollIntoView({ behavior: "smooth" });
-        return;
-      }
-      if (ADMIN_WA === "6281234567890" || !/^[0-9]{9,15}$/.test(ADMIN_WA)) {
-        alert("Admin perlu mengatur nomor WhatsApp toko terlebih dahulu pada variabel ADMIN_WA di dalam file index.html.");
-        return;
-      }
-
-      const value = id => document.getElementById(id).value.trim();
-      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-      const orderLines = cart.map(item =>
-        `- ${item.name} x ${item.qty} | ${item.price > 0 ? rupiah(item.price * item.qty) : "Harga konfirmasi admin"}`
-      ).join("\n");
-
-      const message = [
-        "*PESANAN BARU 🌾 - PINOZ Store*",
-        "",
+      if(!cart.length){alert("Keranjang masih kosong. Silakan pilih produk terlebih dahulu.");$("produk").scrollIntoView({behavior:"smooth"});return;}
+      if(!/^[0-9]{9,15}$/.test(ADMIN_WA)){alert("Nomor WhatsApp admin belum benar. Periksa variabel ADMIN_WA.");return;}
+      const value=id=>$(id).value.trim();
+      const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+      const orderLines=cart.map(item=>`- ${item.name} x ${item.qty} | ${rupiah(item.price*item.qty)}`).join("\n");
+      const message=[
+        "*PESANAN BARU - PINOZ STORE*","",
         "*DATA CUSTOMER*",
-        `Nama                : ${value("customer-name")}`,
-        `Alamat              : ${value("street")}`,
-        `RT/RW                : ${value("rt")}/${value("rw")}`,
-        `Kelurahan/Desa : ${value("kelurahan")}`,
-        `Kecamatan        : ${value("kecamatan")}`,
-        `Kabupaten/Kota : ${value("kota")}`,
-        `Kode Pos            : ${value("kodepos")}`,
-        "",
-        "*DETAIL PEMESANAN*",
-        orderLines,
-        "",
-        `*TOTAL                : ${total > 0 ? rupiah(total) : "Menunggu konfirmasi harga admin"}*`,
-        "*Discunt             : Rp ",
-        "*Total Bayar       : Rp ",
-        `Catatan: ${value("notes") || "-"}`,
-        "",
-
-        
-        
+        `Nama: ${value("customer-name")}`,
+        `Alamat: ${value("street")}`,
+        `RT/RW: ${value("rt")}/${value("rw")}`,
+        `Kelurahan/Desa: ${value("kelurahan")}`,
+        `Kecamatan: ${value("kecamatan")}`,
+        `Kabupaten/Kota: ${value("kota")}`,
+        `Kode Pos: ${value("kodepos")}`,"",
+        "*DETAIL PESANAN*",orderLines,"",
+        `*TOTAL PESANAN: ${rupiah(total)}*`,
+        `Catatan: ${value("notes")||"-"}`,"",
         "Mohon konfirmasi ketersediaan produk dan ongkos kirim. Terima kasih."
       ].join("\n");
-
-      const url = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(message)}`;
-      window.open(url, "_blank", "noopener,noreferrer");
+      const url="https://wa.me/"+ADMIN_WA+"?text="+encodeURIComponent(message);
+      window.open(url,"_blank","noopener,noreferrer");
     });
-
-    document.getElementById("year").textContent = new Date().getFullYear();
-    renderProducts();
-    renderCart();
+    $("year").textContent=new Date().getFullYear();
+    renderProducts();renderCart();
   </script>
 </body>
 </html>
