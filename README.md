@@ -85,6 +85,13 @@
     .modal h3{margin:0;font-size:21px}.modal-close{border:0;background:var(--mint);color:var(--dark);border-radius:9px;width:35px;height:35px;font-size:20px}
     .modal p{color:var(--muted);font-size:14px;line-height:1.7}
     .modal-note{padding:12px;border-radius:10px;background:var(--mint);font-size:12px;color:var(--dark)}
+
+    .zoom-backdrop{position:fixed;inset:0;background:rgba(4,18,11,.94);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}
+    .zoom-backdrop.open{display:flex}
+    .zoom-content{position:relative;width:min(96vw,900px);height:min(90vh,900px);display:flex;align-items:center;justify-content:center}
+    .zoom-content img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:10px;background:#fff}
+    .zoom-close{position:absolute;top:-10px;right:-5px;width:42px;height:42px;border:0;border-radius:50%;background:#fff;color:#123b28;font-size:28px;line-height:1;z-index:2;box-shadow:0 3px 16px #0005}
+    .zoom-caption{position:absolute;bottom:-30px;left:0;right:0;text-align:center;color:#fff;font-size:13px;font-weight:700}
     [hidden]{display:none!important}
     /* Breakpoint dibuat lebih longgar agar browser HP yang memakai lebar layout desktop tetap nyaman. */
     @media(max-width:1100px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}.nav-links{display:none}}
@@ -220,6 +227,15 @@
     </div>
   </div>
 
+
+  <div class="zoom-backdrop" id="product-zoom" role="dialog" aria-modal="true" aria-label="Gambar produk ukuran penuh">
+    <div class="zoom-content">
+      <button class="zoom-close" type="button" id="zoom-close" aria-label="Tutup gambar">×</button>
+      <img id="zoom-image" src="" alt="Gambar produk diperbesar">
+      <div class="zoom-caption" id="zoom-caption">Ketuk di luar gambar atau tombol × untuk menutup</div>
+    </div>
+  </div>
+
   <script>
     "use strict";
     // Ganti nomor ini dengan nomor WhatsApp admin (format 62xxxxxxxxxx).
@@ -247,7 +263,7 @@
       list.innerHTML = PRODUCTS.map(p => `
         <article class="product">
           <div class="product-image">
-            ${p.image ? `<img src="${p.image}" alt="${escapeHTML(p.name)}" loading="lazy" decoding="async" onerror="this.hidden=true;this.parentElement.querySelector('.placeholder').hidden=false">` : ""}
+            ${p.image ? `<img src="${p.image}" alt="${escapeHTML(p.name)}" loading="lazy" decoding="async" tabindex="0" role="button" aria-label="Perbesar gambar ${escapeHTML(p.name)}" onclick="openProductZoom(${p.id})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openProductZoom(${p.id})}" onerror="this.hidden=true;this.parentElement.querySelector('.placeholder').hidden=false">` : ""}
             <div class="placeholder" ${p.image ? "hidden" : ""}><b>${p.icon}</b><span>PINOZ • ${escapeHTML(p.category.toUpperCase())}</span></div>
           </div>
           <div class="product-body">
@@ -263,6 +279,20 @@
             </div>
           </div>
         </article>`).join("");
+    }
+
+    function openProductZoom(id){
+      const product=PRODUCTS.find(p=>p.id===Number(id));
+      if(!product || !product.image){showToast("Gambar produk belum tersedia");return;}
+      $("zoom-image").src=product.image;
+      $("zoom-image").alt=product.name;
+      $("zoom-caption").textContent=product.name;
+      $("product-zoom").classList.add("open");
+      $("zoom-close").focus();
+    }
+    function closeProductZoom(){
+      $("product-zoom").classList.remove("open");
+      $("zoom-image").src="";
     }
     function shortDescription(text){return text.length > 115 ? text.slice(0,112).trim()+"…" : text;}
     function escapeHTML(value){return String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
@@ -310,10 +340,13 @@
       if(qty)changeQty(qty.dataset.qty,Number(qty.dataset.delta));if(remove)removeItem(remove.dataset.remove);
     });
     $("go-cart").addEventListener("click",()=>$("checkout").scrollIntoView({behavior:"smooth"}));
+
+    $("zoom-close").addEventListener("click",closeProductZoom);
+    $("product-zoom").addEventListener("click",event=>{if(event.target===$("product-zoom"))closeProductZoom();});
     $("close-modal").addEventListener("click",closeDetails);
     $("modal-add").addEventListener("click",()=>{if(selectedProductId!==null)addToCart(selectedProductId);closeDetails();});
     $("detail-modal").addEventListener("click",event=>{if(event.target===$("detail-modal"))closeDetails();});
-    document.addEventListener("keydown",event=>{if(event.key==="Escape")closeDetails();});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeDetails();closeProductZoom();}});
 
     $("order-form").addEventListener("submit",event=>{
       event.preventDefault();
@@ -323,18 +356,23 @@
       const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
       const orderLines=cart.map(item=>`- ${item.name} x ${item.qty} | ${rupiah(item.price*item.qty)}`).join("\n");
       const message=[
-        "*PESANAN BARU - PINOZ STORE*","",
+        "*PESANAN BARU 🌾 - Fertijava Store*",
+        "",
         "*DATA CUSTOMER*",
-        `Nama: ${value("customer-name")}`,
-        `Alamat: ${value("street")}`,
-        `RT/RW: ${value("rt")}/${value("rw")}`,
-        `Kelurahan/Desa: ${value("kelurahan")}`,
-        `Kecamatan: ${value("kecamatan")}`,
-        `Kabupaten/Kota: ${value("kota")}`,
-        `Kode Pos: ${value("kodepos")}`,"",
-        "*DETAIL PESANAN*",orderLines,"",
-        `*TOTAL PESANAN: ${rupiah(total)}*`,
-        `Catatan: ${value("notes")||"-"}`,"",
+        `Nama                : ${value("customer-name")}`,
+        `Alamat              : ${value("street")}`,
+        `RT/RW                : ${value("rt")}/${value("rw")}`,
+        `Kelurahan/Desa : ${value("kelurahan")}`,
+        `Kecamatan         : ${value("kecamatan")}`,
+        `Kabupaten/Kota : ${value("kota")}`,
+        `Kode Pos          : ${value("kodepos")}`,
+        "",
+        "*DETAIL PEMESANAN*",
+        orderLines,
+        "",
+        `*TOTAL: ${total > 0 ? rupiah(total) : "Menunggu konfirmasi harga admin"}*`,
+        `Catatan: ${value("notes") || "-"}`,
+        "",
         "Mohon konfirmasi ketersediaan produk dan ongkos kirim. Terima kasih."
       ].join("\n");
       const url="https://wa.me/"+ADMIN_WA+"?text="+encodeURIComponent(message);
