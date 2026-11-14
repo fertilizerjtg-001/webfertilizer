@@ -1,4 +1,4 @@
-8<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -225,7 +225,7 @@
               <div class="field"><label for="kecamatan">Kecamatan *</label><input id="kecamatan" required></div>
               <div class="field"><label for="kota">Kabupaten / Kota *</label><input id="kota" required></div>
               <div class="field"><label for="kodepos">Kode Pos *</label><input id="kodepos" inputmode="numeric" required placeholder="5 digit"></div>
-              <div class="field full"><label for="notes">Catatan pemesanan (opsional)</label><textarea id="notes" placeholder="Jumlah tambahan, patokan alamat, atau catatan lainnya"></textarea></div>
+              <div class="field full"><label for="notes">Catatan pemesanan / Nomor WhatsApp tambahan (opsional)</label><textarea id="notes" placeholder="Contoh: 081234567890, mohon hubungi sebelum pengiriman"></textarea><div class="hint">Jika kolom ini berisi nomor HP/WhatsApp, ringkasan pesanan juga akan dibuka ke nomor tersebut.</div></div>
             </div>
             <button class="submit" type="submit">Kirim Pesanan via WhatsApp →</button>
             <div class="hint">WhatsApp akan terbuka dengan ringkasan pesanan. Pesanan diproses setelah dikonfirmasi admin.</div>
@@ -315,6 +315,14 @@
     }
     function shortDescription(text){return text.length > 115 ? text.slice(0,112).trim()+"…" : text;}
     function escapeHTML(value){return String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+    // Normalisasi nomor telepon Indonesia untuk tautan WhatsApp.
+    function normalizeWhatsAppNumber(raw){
+      let digits=String(raw||"").replace(/\D/g,"");
+      if(digits.startsWith("0"))digits="62"+digits.slice(1);
+      else if(digits.startsWith("8"))digits="62"+digits;
+      return /^62[0-9]{8,13}$/.test(digits) ? digits : "";
+    }
+
     function showToast(message){
       $("toast").textContent=message;$("toast").classList.add("show");
       clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200);
@@ -384,26 +392,43 @@
       const discountAmount=Math.round(total*discountRate/100);
       const payableTotal=total-discountAmount;
       const orderLines=cart.map(item=>`- ${item.name} x ${item.qty} | ${rupiah(item.price*item.qty)}`).join("\n");
+      const notes=value("notes");
+      // Jika catatan berisi nomor telepon, pesan pesanan juga disiapkan untuk nomor tersebut.
+      const phoneMatches=notes.match(/(?:\+?62|0)?[\s().-]*8(?:[\s().-]*[0-9]){8,12}/g)||[];
+      const customerPhone=phoneMatches.length ? normalizeWhatsAppNumber(phoneMatches[0]) : "";
+      const cleanNotes=customerPhone
+        ? notes.replace(phoneMatches[0],"").replace(/^[\s,;:-]+|[\s,;:-]+$/g,"").trim()
+        : notes;
+
       const message=[
         "*PESANAN BARU - PINOZ STORE*","",
         "*DATA CUSTOMER*",
-        `Nama               : ${value("customer-name")}`,
-        `Alamat             : ${value("street")}`,
-        `RT/RW               : ${value("rt")}/${value("rw")}`,
+        `Nama: ${value("customer-name")}`,
+        `Alamat: ${value("street")}`,
+        `RT/RW: ${value("rt")}/${value("rw")}`,
         `Kelurahan/Desa: ${value("kelurahan")}`,
-        `Kecamatan       : ${value("kecamatan")}`,
+        `Kecamatan: ${value("kecamatan")}`,
         `Kabupaten/Kota: ${value("kota")}`,
-        `Kode Pos           : ${value("kodepos")}`,"",
+        `Kode Pos: ${value("kodepos")}`,"",
         "*DETAIL PESANAN*",orderLines,"",
         `*TOTAL PESANAN: ${rupiah(total)}*`,
         `Diskon: ${discountRate}%`,
         `Potongan Diskon: -${rupiah(discountAmount)}`,
-        `*TOTAL BAYAR    : ${rupiah(payableTotal)}*`,
-        `Catatan: ${value("notes")||"-"}`,"",
+        `*TOTAL BAYAR: ${rupiah(payableTotal)}*`,
+        `Catatan: ${cleanNotes||"-"}`,"",
         "Mohon konfirmasi ketersediaan produk dan ongkos kirim. Terima kasih."
       ].join("\n");
-      const url="https://wa.me/"+ADMIN_WA+"?text="+encodeURIComponent(message);
-      window.open(url,"_blank","noopener,noreferrer");
+
+      // Buka chat admin dan chat nomor tambahan jika ditemukan di kolom catatan.
+      const adminUrl="https://wa.me/"+ADMIN_WA+"?text="+encodeURIComponent(message);
+      window.open(adminUrl,"_blank");
+      if(customerPhone && customerPhone!==ADMIN_WA){
+        const customerUrl="https://wa.me/"+customerPhone+"?text="+encodeURIComponent(message);
+        window.open(customerUrl,"_blank");
+        showToast("Chat WhatsApp admin dan nomor tambahan telah disiapkan");
+      }else{
+        showToast("Chat WhatsApp admin telah disiapkan");
+      }
     });
     $("year").textContent=new Date().getFullYear();
     renderProducts();renderCart();
