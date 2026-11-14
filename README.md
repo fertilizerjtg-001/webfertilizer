@@ -66,6 +66,13 @@
     .qty{display:flex;align-items:center;gap:7px}.qty button{width:29px;height:29px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--green);font-weight:900}
     .remove{border:0;background:transparent;color:#b34b4b;font-size:11px;padding:5px 0}
     .total{display:flex;justify-content:space-between;gap:10px;padding-top:16px;margin-top:7px;font-weight:950;font-size:16px}
+    .discount-box{margin-top:16px;padding:14px;border:1px solid #dcebe0;border-radius:12px;background:#f8fcf9}
+    .discount-box label{display:block;margin-bottom:8px}
+    .discount-select{width:100%;border:1px solid #cfe2d5;border-radius:9px;padding:11px 12px;background:#fff;color:var(--ink);font-weight:750}
+    .discount-row,.payable-row{display:flex;justify-content:space-between;gap:10px;padding-top:10px;font-size:13px}
+    .discount-row{color:#b34b4b}
+    .payable-row{margin-top:10px;padding-top:13px;border-top:1px dashed #cbded0;font-size:17px;font-weight:950;color:var(--dark)}
+    .discount-hint{margin-top:6px;color:var(--muted);font-size:11px}
     .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     .field{display:flex;flex-direction:column;gap:6px;min-width:0}.field.full{grid-column:1/-1}
     label{font-size:12px;font-weight:800;color:#385548}
@@ -193,6 +200,18 @@
           <h3>🛒 Keranjang Belanja</h3>
           <div id="cart-items"><div class="empty">Keranjang masih kosong. Silakan pilih produk terlebih dahulu.</div></div>
           <div class="total"><span>Total Pesanan</span><span id="cart-total">Rp0</span></div>
+          <div class="discount-box">
+            <label for="discount-select">🎁 Pilih Diskon</label>
+            <select class="discount-select" id="discount-select">
+              <option value="0">Tanpa diskon (0%)</option>
+              <option value="5">Diskon 5%</option>
+              <option value="7">Diskon 7%</option>
+              <option value="10">Diskon 10%</option>
+            </select>
+            <div class="discount-hint">Diskon dihitung otomatis dari total pesanan.</div>
+            <div class="discount-row"><span>Potongan diskon</span><strong id="discount-amount">−Rp0</strong></div>
+            <div class="payable-row"><span>Total Bayar</span><strong id="payable-total">Rp0</strong></div>
+          </div>
         </div>
         <div class="panel">
           <h3>Data Customer</h3>
@@ -316,7 +335,13 @@
       const container=$("cart-items");
       const count=cart.reduce((sum,item)=>sum+item.qty,0);
       const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
-      $("cart-count").textContent=count;$("cart-total").textContent=rupiah(total);
+      const discountRate=Number($("discount-select").value||0);
+      const discountAmount=Math.round(total*discountRate/100);
+      const payableTotal=total-discountAmount;
+      $("cart-count").textContent=count;
+      $("cart-total").textContent=rupiah(total);
+      $("discount-amount").textContent="−"+rupiah(discountAmount);
+      $("payable-total").textContent=rupiah(payableTotal);
       if(!cart.length){container.innerHTML='<div class="empty">Keranjang masih kosong. Silakan pilih produk terlebih dahulu.</div>';return;}
       container.innerHTML=cart.map(item=>`
         <div class="cart-row">
@@ -339,6 +364,7 @@
       const qty=event.target.closest("[data-qty]");const remove=event.target.closest("[data-remove]");
       if(qty)changeQty(qty.dataset.qty,Number(qty.dataset.delta));if(remove)removeItem(remove.dataset.remove);
     });
+    $("discount-select").addEventListener("change",renderCart);
     $("go-cart").addEventListener("click",()=>$("checkout").scrollIntoView({behavior:"smooth"}));
 
     $("zoom-close").addEventListener("click",closeProductZoom);
@@ -354,25 +380,26 @@
       if(!/^[0-9]{9,15}$/.test(ADMIN_WA)){alert("Nomor WhatsApp admin belum benar. Periksa variabel ADMIN_WA.");return;}
       const value=id=>$(id).value.trim();
       const total=cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+      const discountRate=Number($("discount-select").value||0);
+      const discountAmount=Math.round(total*discountRate/100);
+      const payableTotal=total-discountAmount;
       const orderLines=cart.map(item=>`- ${item.name} x ${item.qty} | ${rupiah(item.price*item.qty)}`).join("\n");
       const message=[
-        "*PESANAN BARU 🌾 - Fertijava Store*",
-        "",
+        "*PESANAN BARU - PINOZ STORE*","",
         "*DATA CUSTOMER*",
-        `Nama                : ${value("customer-name")}`,
-        `Alamat              : ${value("street")}`,
-        `RT/RW                : ${value("rt")}/${value("rw")}`,
-        `Kelurahan/Desa : ${value("kelurahan")}`,
-        `Kecamatan         : ${value("kecamatan")}`,
-        `Kabupaten/Kota : ${value("kota")}`,
-        `Kode Pos          : ${value("kodepos")}`,
-        "",
-        "*DETAIL PEMESANAN*",
-        orderLines,
-        "",
-        `*TOTAL: ${total > 0 ? rupiah(total) : "Menunggu konfirmasi harga admin"}*`,
-        `Catatan: ${value("notes") || "-"}`,
-        "",
+        `Nama: ${value("customer-name")}`,
+        `Alamat: ${value("street")}`,
+        `RT/RW: ${value("rt")}/${value("rw")}`,
+        `Kelurahan/Desa: ${value("kelurahan")}`,
+        `Kecamatan: ${value("kecamatan")}`,
+        `Kabupaten/Kota: ${value("kota")}`,
+        `Kode Pos: ${value("kodepos")}`,"",
+        "*DETAIL PESANAN*",orderLines,"",
+        `*TOTAL PESANAN: ${rupiah(total)}*`,
+        `Diskon: ${discountRate}%`,
+        `Potongan Diskon: -${rupiah(discountAmount)}`,
+        `*TOTAL BAYAR: ${rupiah(payableTotal)}*`,
+        `Catatan: ${value("notes")||"-"}`,"",
         "Mohon konfirmasi ketersediaan produk dan ongkos kirim. Terima kasih."
       ].join("\n");
       const url="https://wa.me/"+ADMIN_WA+"?text="+encodeURIComponent(message);
