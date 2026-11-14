@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+8<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -387,13 +387,13 @@
       const message=[
         "*PESANAN BARU - PINOZ STORE*","",
         "*DATA CUSTOMER*",
-        `Nama: ${value("customer-name")}`,
-        `Alamat: ${value("street")}`,
-        `RT/RW: ${value("rt")}/${value("rw")}`,
+        `Nama      : ${value("customer-name")}`,
+        `Alamat       : ${value("street")}`,
+        `RT/RW       : ${value("rt")}/${value("rw")}`,
         `Kelurahan/Desa: ${value("kelurahan")}`,
-        `Kecamatan: ${value("kecamatan")}`,
+        `Kecamatan     : ${value("kecamatan")}`,
         `Kabupaten/Kota: ${value("kota")}`,
-        `Kode Pos: ${value("kodepos")}`,"",
+        `Kode Pos       : ${value("kodepos")}`,"",
         "*DETAIL PESANAN*",orderLines,"",
         `*TOTAL PESANAN: ${rupiah(total)}*`,
         `Diskon: ${discountRate}%`,
