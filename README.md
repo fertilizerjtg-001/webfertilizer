@@ -106,10 +106,36 @@
       .nav{padding:10px 14px}.brand{font-size:19px}
       .cart-button{padding:9px 11px;font-size:12px}
     }
+    /* Katalog 3 produk per baris, termasuk layar HP. Gambar utuh tanpa crop. */
+    .products{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .product{display:flex;flex-direction:column;min-width:0}
+    .product-image{height:190px;min-height:190px;width:100%;padding:8px}
+    .product-image img{width:100%;height:100%;object-fit:contain;object-position:center;padding:4px}
+    .product-body{padding:14px}
+    .product-desc{min-height:0}
+    @media(max-width:700px){
+      .products{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+      .product{display:flex;flex-direction:column}
+      .product-image{height:115px;min-height:115px;padding:5px}
+      .product-image img{object-fit:contain;padding:2px}
+      .product-body{padding:9px}
+      .product h3{font-size:12px;line-height:1.3;margin:7px 0 4px}
+      .product-tag{font-size:8px;padding:3px 5px}
+      .product-desc{font-size:10px;line-height:1.4;min-height:0}
+      .product-bottom{display:flex;flex-direction:column;align-items:stretch;gap:7px;margin-top:9px}
+      .price{font-size:11px}
+      .product-actions{display:flex;flex-direction:column;gap:5px}
+      .add-btn,.detail-btn{width:100%;padding:7px 4px;font-size:10px}
+      .section{padding-left:10px;padding-right:10px}
+      .section-head p{font-size:11px}
+    }
     @media(max-width:390px){
-      .product{grid-template-columns:1fr}
-      .product-image{height:185px;min-height:185px}
-      .product-bottom{flex-direction:row;align-items:center}
+      .products{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+      .product-image{height:100px;min-height:100px}
+      .product-body{padding:7px}
+      .product h3{font-size:11px}
+      .product-desc{font-size:9px}
+      .price{font-size:10px}
       .form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
     }
   </style>
