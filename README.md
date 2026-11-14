@@ -47,8 +47,9 @@
     .product { background: white; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; box-shadow: 0 5px 20px rgba(20,70,45,.04); transition: transform .2s, box-shadow .2s; }
     .product:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
     .product-image { height: 205px; display: grid; place-items: center; background: linear-gradient(145deg, #eaf7ef, #f8fbea); color: var(--green); position: relative; }
-    .product-image img { width: 100%; height: 100%; object-fit: cover; }
+    .product-image img { width: 100%; height: 100%; object-fit: contain; padding: 12px; display: block; }
     .product-image .placeholder { text-align: center; padding: 18px; }
+    .product-image [hidden] { display: none !important; }
     .product-image .placeholder b { display: block; font-size: 54px; }
     .product-image .placeholder span { font-size: 12px; font-weight: 800; letter-spacing: 1px; }
     .product-body { padding: 19px; }
@@ -139,7 +140,7 @@
     <section class="section" id="produk">
       <div class="section-head">
         <div><div class="section-kicker">Katalog pilihan</div><h2>Produk Pinoz</h2></div>
-        <p>6 contoh produk sudah tersedia. Nama, foto, dan harga masih contoh.</p>
+        <p>7 contoh produk sudah tersedia. Nama, foto, dan harga masih contoh.</p>
       </div>
       <div class="products" id="product-list"></div>
     </section>
@@ -200,15 +201,8 @@
     const ADMIN_WA = "62881025173774"; // WAJIB GANTI DENGAN NOMOR WHATSAPP ADMIN
 
     const PRODUCTS = [
-      {
-  id: 1,
-  name: "PINOZ Nutrisi Kompleks",
-  category: "Contoh katalog",
-  price: 120000,
-  description: "Contoh tampilan produk.",
-  image: "https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",
-  icon: "🌿"
-}, 
+      { id: 1, name: "PINOZ Nutrisi Kompleks", category: "Contoh katalog", price: 120000,
+        description: "Contoh tampilan produk. Ganti deskripsi sesuai informasi pada label resmi.", image: "https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png", icon: "🌿" },
       { id: 2, name: "PINOZ Booster Buah", category: "Contoh katalog", price: 100000,
         description: "Contoh item katalog untuk kebutuhan perawatan tanaman. Detail produk perlu disesuaikan.", image: "", icon: "🌱" },
       { id: 3, name: "PINOZ ZPT (Bio Hormon) ", category: "Contoh katalog", price: 85000,
@@ -234,9 +228,9 @@
         <article class="product">
           <div class="product-image">
             ${p.image
-              ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">`
+              ? `<img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" onerror="this.hidden=true;this.nextElementSibling.hidden=false">`
               : ""}
-            <div class="placeholder" ${p.image ? 'style="display:none"' : ""}><b>${p.icon || "🌿"}</b><span>PINOZ • CONTOH KATALOG</span></div>
+            <div class="placeholder" ${p.image ? 'hidden' : ""}><b>${p.icon || "🌿"}</b><span>PINOZ • CONTOH KATALOG</span></div>
           </div>
           <div class="product-body">
             <span class="product-tag">${p.category}</span>
@@ -318,7 +312,7 @@
       ).join("\n");
 
       const message = [
-        "*PESANAN BARU 🌾 - Fertijava Store*",
+        "*PESANAN BARU 🌾 - PINOZ Store*",
         "",
         "*DATA CUSTOMER*",
         `Nama                : ${value("customer-name")}`,
