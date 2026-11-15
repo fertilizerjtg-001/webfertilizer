@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -279,6 +279,18 @@
       {id:8,name:"PINOZ Home Service",category:"Perawatan tanah",price:0,description:"Produk dengan nama dagang Booster Tanah. Tambahkan informasi komposisi, fungsi, dosis, dan metode aplikasi sesuai label resmi produk.",image:"https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",icon:"🌻"}
     ];
 
+
+    const PRODUCTS = [
+      {id:1,name:"PINOZ Nutrisi Kompleks",category:"Nutrisi tanaman",price:120000,description:"Produk nutrisi kompleks untuk kebutuhan perawatan tanaman. Lengkapi keterangan komposisi, manfaat, dosis, dan cara aplikasi berdasarkan label resmi.",image:"https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",icon:"🌿"},
+      {id:2,name:"PINOZ Booster Buah",category:"Perawatan tanaman",price:100000,description:"Produk dengan nama dagang Booster Buah. Tambahkan informasi fungsi, jenis tanaman sasaran, dosis, dan waktu aplikasi sesuai petunjuk resmi produk.",image:"https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",icon:"🌱"},
+      {id:3,name:"PINOZ ZPT (Bio Hormon)",category:"ZPT",price:85000,description:"Produk kategori zat pengatur tumbuh sesuai penamaan produk. Lengkapi kandungan bahan aktif, sasaran penggunaan, dosis, dan cara aplikasi dari label resmi.",image:"https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",icon:"🌾"},
+      {id:4,name:"PINOZ Super Serum",category:"Perawatan tanaman",price:100000,description:"Produk PINOZ Super Serum. Masukkan uraian manfaat, kandungan, tanaman sasaran, dan petunjuk penggunaan yang tercantum pada kemasan resmi.",image:"https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",icon:"🍃"},
+      {id:5,name:"PINOZ Anti Virus",category:"Perlindungan tanaman",price:100000,description:"Produk dengan nama dagang Anti Virus. Pastikan keterangan fungsi, organisme sasaran, status/perizinan, dan cara penggunaan ditulis sesuai label resmi.",image:"https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",icon:"🪴"},
+      {id:6,name:"PINOZ Suplemen Makro",category:"Nutrisi tanaman",price:150000,description:"Produk suplemen makro. Lengkapi daftar unsur/kandungan, manfaat, tanaman sasaran, dosis, dan cara aplikasi berdasarkan informasi resmi pada kemasan.",image:"https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",icon:"🌻"},
+      {id:7,name:"PINOZ Booster Tanah",category:"Perawatan tanah",price:110000,description:"Produk dengan nama dagang Booster Tanah. Tambahkan informasi komposisi, fungsi, dosis, dan metode aplikasi sesuai label resmi produk.",image:"https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",icon:"🌻"},
+      {id:8,name:"PINOZ Home Service",category:"Perawatan tanah",price:0,description:"Produk dengan nama dagang Booster Tanah. Tambahkan informasi komposisi, fungsi, dosis, dan metode aplikasi sesuai label resmi produk.",image:"https://cdn.phototourl.com/anon/2026-11-14-1e0f454f-147f-4998-8c73-488dc507ffa0.png",icon:"🌻"}
+    ];
+    
     let cart = [];
     let selectedProductId = null;
     let toastTimer = null;
